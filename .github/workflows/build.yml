@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 21 }
       - uses: gradle/actions/setup-gradle@v4
-        with: { gradle-version: 9.2.0 }
+        with: { gradle-version: 8.14.3 }
       - name: Gradle build
         run: gradle build --no-daemon > build.log 2>&1
       - name: Publish log on failure
@@ -45,7 +45,7 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 21 }
       - uses: gradle/actions/setup-gradle@v4
-        with: { gradle-version: 9.2.0 }
+        with: { gradle-version: 8.14.3 }
       - run: gradle build --no-daemon
       - run: |
           curl -sL -o vf.jar https://github.com/Vineflower/vineflower/releases/download/1.10.1/vineflower-1.10.1.jar
