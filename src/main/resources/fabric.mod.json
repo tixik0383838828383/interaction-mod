@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "cinematic_client_addon",
+  "version": "1.0.0",
+  "name": "Cinematic Interactions client addon (build helper)",
+  "environment": "client",
+  "entrypoints": { "client": ["dev.dyslexic.cinematic.emu.EmuInit"] },
+  "mixins": ["cinematic_client.mixins.json"],
+  "depends": { "fabricloader": ">=0.16.14", "minecraft": "1.21.1" }
+}

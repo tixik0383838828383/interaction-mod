@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.dyslexic.cinematic.emu.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "priority": 500,
+  "mixins": [],
+  "client": [
+    "PacketDistributorMixin",
+    "CinematicClientMixin",
+    "SettingsMixin",
+    "MinecraftMixin",
+    "AbstractFurnaceMenuAccessor"
+  ],
+  "injectors": { "defaultRequire": 1 }
+}

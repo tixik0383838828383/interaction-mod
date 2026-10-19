@@ -1,0 +1,37 @@
+plugins {
+    id 'fabric-loom' version '1.10-SNAPSHOT'
+}
+
+version = '1.0.0'
+group = 'dev.cinematic.clientaddon'
+base { archivesName = 'cinematic-client-addon' }
+
+repositories {
+    maven { url = 'https://maven.fabricmc.net/' }
+}
+
+loom {
+    mixin {
+        defaultRefmapName = 'cinematic_client-refmap.json'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // The original (server+client) mod. Loom remaps it to the named namespace for compilation only;
+    // it is NOT bundled -- tools/patch_jar.py overlays our classes on top of the original jar.
+    modCompileOnly files('libs/CinematicInteraction-0.1-Fabric-1.21.1.jar')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
