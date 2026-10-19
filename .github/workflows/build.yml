@@ -14,7 +14,13 @@ jobs:
         with: { distribution: temurin, java-version: 21 }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: 8.12 }
-      - run: gradle build --no-daemon
+      - name: Gradle build
+        run: gradle build --no-daemon > build.log 2>&1
+      - name: Publish log on failure
+        if: failure()
+        run: |
+          mkdir /tmp/l && cp build.log /tmp/l/ && cd /tmp/l && git init -q -b ci-log && git config user.name ci && git config user.email ci@x.y
+          git add -A && git commit -qm log && git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" ci-log
       - name: Patch original jar
         run: |
           ADDON=$(ls build/libs/*.jar | grep -v -e sources -e dev | head -1)
