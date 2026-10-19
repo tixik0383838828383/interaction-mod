@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /** Every client->server action of the mod goes through PacketDistributor.sendToServer; answer them locally on vanilla servers. */
-@Mixin(targets = "dev.dyslexic.cinematic.net.PacketDistributor", remap = false)
+@Mixin(value = dev.dyslexic.cinematic.net.PacketDistributor.class, remap = false)
 public abstract class PacketDistributorMixin {
     @Inject(method = "sendToServer", at = @At("HEAD"), cancellable = true, remap = false)
     private static void cinematic$emulate(CustomPacketPayload payload, CallbackInfo ci) {

@@ -10,7 +10,8 @@
     "CinematicClientMixin",
     "SettingsMixin",
     "MinecraftMixin",
-    "AbstractFurnaceMenuAccessor"
+    "AbstractFurnaceMenuAccessor",
+    "ClientLevelAccessor"
   ],
   "injectors": { "defaultRequire": 1 }
 }

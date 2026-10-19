@@ -3,6 +3,7 @@ package dev.dyslexic.cinematic.emu;
 import dev.dyslexic.cinematic.ClientBridge;
 import dev.dyslexic.cinematic.client.ClientPayloads;
 import dev.dyslexic.cinematic.emu.mixin.AbstractFurnaceMenuAccessor;
+import dev.dyslexic.cinematic.emu.mixin.ClientLevelAccessor;
 import dev.dyslexic.cinematic.net.AtStationPayload;
 import dev.dyslexic.cinematic.net.EnchantDisplayPayload;
 import dev.dyslexic.cinematic.net.FurnaceContentsPayload;
@@ -55,6 +56,7 @@ import net.minecraft.world.inventory.StonecutterMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.ChiseledBookShelfBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.JukeboxBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
@@ -239,8 +241,8 @@ public final class Emu {
             return;
         }
         BlockHitResult hit;
-        if (p.kind() == StationKind.CHISELED_BOOKSHELF && state.hasProperty(ChiseledBookShelfBlock.FACING)) {
-            hit = shelfHit(p.pos(), state.getValue(ChiseledBookShelfBlock.FACING), p.index());
+        if (p.kind() == StationKind.CHISELED_BOOKSHELF && state.hasProperty(HorizontalDirectionalBlock.FACING)) {
+            hit = shelfHit(p.pos(), state.getValue(HorizontalDirectionalBlock.FACING), p.index());
         } else {
             hit = hitFor(mc, p.pos(), Direction.UP);
         }
@@ -318,7 +320,7 @@ public final class Emu {
         if (sneaking) {
             conn.send(new ServerboundPlayerCommandPacket(player, ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY));
         }
-        try (BlockStatePredictionHandler handler = level.getBlockStatePredictionHandler().startPredicting()) {
+        try (BlockStatePredictionHandler handler = ((ClientLevelAccessor) level).cinematic$predictions().startPredicting()) {
             conn.send(new ServerboundUseItemOnPacket(InteractionHand.MAIN_HAND, hit, handler.currentSequence()));
         }
         if (sneaking) {
@@ -473,10 +475,10 @@ public final class Emu {
     private static void shelfAct(Minecraft mc, LocalPlayer player, Session s, StationActionPayload p) {
         int slot = p.index();
         BlockState state = mc.level.getBlockState(s.pos);
-        if (slot < 0 || slot > 5 || !state.hasProperty(ChiseledBookShelfBlock.FACING)) {
+        if (slot < 0 || slot > 5 || !state.hasProperty(HorizontalDirectionalBlock.FACING)) {
             return;
         }
-        Direction facing = state.getValue(ChiseledBookShelfBlock.FACING);
+        Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
         BlockHitResult hit = shelfHit(s.pos, facing, slot);
         ItemStack book = shelfBook(mc, s.pos, state, slot);
         switch (p.action()) {
