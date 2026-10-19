@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.16.3'
+    id 'fabric-loom' version '1.10-SNAPSHOT'
 }
 
 version = '1.0.0'
@@ -24,7 +24,7 @@ dependencies {
 
     // The original (server+client) mod. Loom remaps it to the named namespace for compilation only;
     // it is NOT bundled -- tools/patch_jar.py overlays our classes on top of the original jar.
-    modCompileOnly files('libs/CinematicInteraction-0.1-Fabric-1.21.1.jar')
+    modCompileOnly files('build-dep/mod-dep.jar')
 }
 
 tasks.withType(JavaCompile).configureEach {
